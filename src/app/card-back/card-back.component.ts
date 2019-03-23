@@ -1,4 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy
+} from '@angular/core';
+
 import {
   trigger,
   state,
@@ -7,6 +15,8 @@ import {
   transition
 } from '@angular/animations';
 import { CardData } from '../game-table/game-table.component';
+import { Subject } from 'rxjs';
+import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-card-back',
@@ -33,14 +43,19 @@ import { CardData } from '../game-table/game-table.component';
     ])
   ]
 })
-export class CardBackComponent implements OnInit {
-  cardState = 'show';
-  cardTurned = false;
-
-
+export class CardBackComponent implements OnInit, OnDestroy {
   @Input() cardData: CardData;
+  @Output() turnEvent = new EventEmitter<string>();
 
-  constructor() { }
+  cardState = 'show';
+  cardStartToTurn = false;
+  cardTurned = false;
+  cardActive = true;
+
+  @Input() disableCard: Subject<string>;
+  @Input() turnbackCard: Subject<string>;
+
+  constructor() {}
 
   onAnimationDoneEvent() {
     if (this.cardState === 'hide') {
@@ -50,10 +65,32 @@ export class CardBackComponent implements OnInit {
   }
 
   onTurnCardEvent() {
-    this.cardState = 'hide';
+    if (!this.cardTurned) {
+      this.cardState = 'hide';
+      this.cardStartToTurn = true;
+
+      this.turnEvent.emit(this.cardData.id.toString());
+    }
   }
 
   ngOnInit() {
+    this.disableCard.subscribe((id: string) => {
+      if (this.cardData.id.toString() === id) {
+        this.cardActive = false;
+        this.cardStartToTurn = false;
+      }
+    });
+
+    this.turnbackCard.subscribe((id: string) => {
+      if (this.cardData.id.toString() === id && this.cardStartToTurn === true) {
+        this.cardStartToTurn = false;
+        setTimeout(() => (this.cardState = 'hide'), 1000);
+      }
+    });
   }
 
+  ngOnDestroy() {
+    this.disableCard.unsubscribe();
+    this.turnbackCard.unsubscribe();
+  }
 }

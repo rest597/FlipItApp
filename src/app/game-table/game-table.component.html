@@ -1,3 +1,14 @@
-<div class="card" *ngFor="let card of pictures" style="width: 20rem; text-align:center;display:inline-block;">
-  <app-card-back [cardData]="card"></app-card-back>
+<div>Time (seconds): {{seconds}} || Steps: {{steps}}</div>
+
+<div
+  class="card"
+  *ngFor="let card of deck; let i = index"
+  style="width: 20rem; text-align:center;display:inline-block;"
+>
+  <app-card-back
+    [cardData]="card"
+    (turnEvent)="onTurnEvent($event)"
+    [turnbackCard]="turnBackCard"
+    [disableCard]="disableCard"
+  ></app-card-back>
 </div>

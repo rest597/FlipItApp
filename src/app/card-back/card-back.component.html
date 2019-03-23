@@ -1,13 +1,13 @@
 <div [@showHide]="cardState" (@showHide.done)="onAnimationDoneEvent($event)" (click)="onTurnCardEvent($event)">
   <img
-    *ngIf="!cardTurned"
+    *ngIf="!cardTurned && cardActive"
     class="card-img-top"
     src="http://localhost:3000/card/card_back.png"
     height="300"
     width="100"
   />
   <img
-    *ngIf="cardTurned"
+    *ngIf="cardTurned && cardActive"
     class="card-img-top"
     [src]="cardData.url"
     height="300"
