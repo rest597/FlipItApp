@@ -1,13 +1,3 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm">
-      One of three columns
-    </div>
-    <div class="col-sm">
-      One of three columns
-    </div>
-    <div class="col-sm">
-      One of three columns
-    </div>
-  </div>
+<div class="card" *ngFor="let card of pictures" style="width: 20rem; text-align:center;display:inline-block;">
+  <app-card-front [cardImage]="card" (click)="onCardClicked()"></app-card-front>
 </div>
