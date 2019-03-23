@@ -42,7 +42,4 @@ export class GameTableComponent implements OnInit {
     });
   }
 
-  onCardClicked() {
-    console.log('yeah');
-  }
 }

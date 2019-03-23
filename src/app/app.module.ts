@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,7 +17,7 @@ import { GameTableComponent } from './game-table/game-table.component';
     CardFrontComponent,
     GameTableComponent
   ],
-  imports: [BrowserModule, HttpModule, AppRoutingModule],
+  imports: [BrowserModule, BrowserAnimationsModule, HttpModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
 })
